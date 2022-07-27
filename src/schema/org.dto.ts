@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { Interface } from 'readline';
 // import { CampaignDocument } from 'src/campaign/schema/campaign.schema';
 import { Org, OrgDocument } from './org.schema';
 
@@ -72,3 +73,5 @@ export class UpdateOrgDTO {
   instagram: string;
   twitter: string;
 }
+
+export interface IUploadImage { img: string; orgId: string; }

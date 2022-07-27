@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
-import { ICreateOrgDTO } from './schema/org.dto';
+import { errorMonitor } from 'stream';
+import { ICreateOrgDTO, IUploadImage } from './schema/org.dto';
 import { Org, OrgDocument } from './schema/org.schema';
 
 @Injectable()
@@ -17,11 +19,45 @@ export class AppService {
 
 
   async createOrg(data: ICreateOrgDTO) {
-    console.log(data)
+    try {
+      const org = await this.orgModel.create(data)
+      return 'success'
+    } catch (error) {
+      throw error
+    }
+  }
 
-    const org = await this.orgModel.create(data)
+  async getOrgs(): Promise<OrgDocument[]> {
+    try {
+      const orgs = await this.orgModel.find()
+      return orgs
+    } catch (error) {
+      throw error
+    }
+  }
 
-    console.log(org)
+  async getOrg(orgId: string): Promise<OrgDocument> {
+    try {
+      const org = await this.orgModel.findById(orgId)
+      return org
+    } catch (error) {
+      throw error
+    }
+  }
 
+  async uploadImage(data: IUploadImage) {
+    try {
+      const image = data.img
+      const org = await this.orgModel.findByIdAndUpdate(
+        data.orgId,
+        {
+          $set: { image },
+        },
+        { new: true },
+      );
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 }

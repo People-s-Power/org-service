@@ -28,6 +28,8 @@ export type OrgDocument = Org &
   timestamps: true
 })
 export class Org {
+  @Prop({ default: 'Upload org Image' })
+  image: string;
   @Prop()
   author: string;
   @Prop({ require: true, unique: true })
