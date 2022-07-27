@@ -66,12 +66,13 @@ export class UpdateOrgDTO {
   orgName: string;
   linkedIn: string;
   facebook: string;
-  image: string;
+  orgId: string;
   email: string;
-  password: string;
   phone: string;
   instagram: string;
   twitter: string;
+  country: string;
+  state: string
 }
 
 export interface IUploadImage { img: string; orgId: string; }

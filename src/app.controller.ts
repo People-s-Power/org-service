@@ -21,6 +21,14 @@ export class AppController {
     channel.ack(originalMsg)
   }
 
+  @EventPattern('update-org')
+  updateOrg(@Payload() data, @Ctx() ctx: RmqContext) {
+    const channel = ctx.getChannelRef()
+    const originalMsg = ctx.getMessage()
+    this.appService.updateOrg(data)
+    channel.ack(originalMsg)
+  }
+
   @EventPattern('upload-image')
   uploadImage(@Payload() data, @Ctx() ctx: RmqContext) {
     const channel = ctx.getChannelRef()

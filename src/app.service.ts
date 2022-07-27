@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
 import { errorMonitor } from 'stream';
-import { ICreateOrgDTO, IUploadImage } from './schema/org.dto';
+import { ICreateOrgDTO, IUploadImage, UpdateOrgDTO } from './schema/org.dto';
 import { Org, OrgDocument } from './schema/org.schema';
 
 @Injectable()
@@ -60,4 +60,21 @@ export class AppService {
       throw error;
     }
   }
+
+
+  async updateOrg(data: UpdateOrgDTO) {
+    try {
+      const org = await this.orgModel.findByIdAndUpdate(
+        data.orgId,
+        { ...data },
+        {
+          new: true,
+        },
+      );
+      return org;
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
