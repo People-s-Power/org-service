@@ -43,6 +43,7 @@ export class CreateOrgDTO {
   description: string;
   country: string;
   city: string;
+  website: string;
   author: string
 }
 
@@ -54,6 +55,7 @@ export interface ICreateOrgDTO {
   description: string;
   country: string;
   city: string;
+  website: string;
   author: string
 }
 

@@ -62,6 +62,8 @@ export class Org {
   country: string;
   @Prop()
   city: string;
+  @Prop()
+  website: string;
 }
 
 export const OrgSchema = SchemaFactory.createForClass(Org);
