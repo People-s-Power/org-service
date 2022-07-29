@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices'
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const rmqUrl = process.env.RMQ_URL
@@ -36,6 +36,7 @@ async function bootstrap() {
     })
 
     await app.startAllMicroservices()
+    // app.useGlobalPipes(new ValidationPipe())
   
   logger.log('microservices is listening')
   await app.listen(PORT, () => {

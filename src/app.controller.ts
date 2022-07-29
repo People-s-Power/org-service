@@ -54,4 +54,13 @@ export class AppController {
     return this.appService.getOrg(orgId)
     channel.ack(originalMsg)
   }
+
+  @MessagePattern ({ cmd: 'user-orgs' })
+  userOrgs(@Payload() author: string, @Ctx() ctx: RmqContext): Promise<OrgDocument[]> {
+    const channel = ctx.getChannelRef()
+    const originalMsg = ctx.getMessage()
+    return this.appService.userOrgs(author)
+    channel.ack(originalMsg)
+  }
+
 }
