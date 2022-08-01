@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Ctx, EventPattern, MessagePattern, Payload, RmqContext } from '@nestjs/microservices';
-import { CreateOrgDTO, IOrg } from './schema/org.dto';
+import { createOperator, CreateOrgDTO, IcreateOperator, IOrg } from './schema/org.dto';
 import { OrgDocument } from './schema/org.schema'
 
 @Controller()
@@ -37,6 +37,31 @@ export class AppController {
     channel.ack(originalMsg)
   }
 
+  @EventPattern('create-operator')
+  createOperator(@Payload() data: createOperator, @Ctx() ctx: RmqContext) {
+    const channel = ctx.getChannelRef()
+    const originalMsg = ctx.getMessage()
+    const Idata: IcreateOperator = data
+    this.appService.createOperator(Idata)
+    channel.ack(originalMsg)
+  }
+
+  @EventPattern('update-operator')
+  updateOperator(@Payload() data: createOperator, @Ctx() ctx: RmqContext) {
+    const channel = ctx.getChannelRef()
+    const originalMsg = ctx.getMessage()
+    const Idata: IcreateOperator = data
+    this.appService.updateOperatorRole(Idata)
+    channel.ack(originalMsg)
+  }
+
+  @EventPattern('delete-operator')
+  deleteOperator(@Payload() data: { userId: string, orgId: string }, @Ctx() ctx: RmqContext) {
+    const channel = ctx.getChannelRef()
+    const originalMsg = ctx.getMessage()
+    this.appService.deleteOperator(data)
+    channel.ack(originalMsg)
+  }
 
 
   @MessagePattern ({ cmd: 'getOrgs' })

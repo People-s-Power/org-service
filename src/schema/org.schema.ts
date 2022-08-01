@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { StaffRoleEnum } from './org.dto';
+import { Ioperators, StaffRoleEnum } from './org.dto';
 import { Document, Types } from 'mongoose';
 
 export type OrgDocument = Org &
@@ -48,8 +48,8 @@ export class Org {
   followersCount: number;
   @Prop({ default: 0 })
   followingCount: number;
-  @Prop()
-  operators: [];
+  @Prop({ type: Array, default: [] })
+  operators: Ioperators[];
   @Prop({ default: 'Facebook link' })
   facebook: string;
   @Prop({ default: 'linkedIn link' })

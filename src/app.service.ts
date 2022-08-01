@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
 import { errorMonitor } from 'stream';
-import { ICreateOrgDTO, IUploadImage, UpdateOrgDTO } from './schema/org.dto';
+import { IcreateOperator, ICreateOrgDTO, IUploadImage, UpdateOrgDTO } from './schema/org.dto';
 import { Org, OrgDocument } from './schema/org.schema';
 
 @Injectable()
@@ -61,6 +61,35 @@ export class AppService {
     }
   }
 
+  async createOperator(data: IcreateOperator) {
+    const { orgId, userId, role } = data
+    const org = await this.orgModel.findById(orgId)
+    if(!org) throw new BadRequestException(`Organisation don't exists`)
+    const payload = { userId, role }
+    org.operators.push(payload)
+    await org.save()
+    return org
+  }
+
+  async updateOperatorRole(data: IcreateOperator) {
+    const { userId, orgId, role } = data
+    const org = await this.orgModel.findById(orgId)
+    if(!org) throw new BadRequestException(`Organisation don't exists`)
+    const userIndex = org.operators.findIndex(item => item.userId === userId)
+    org.operators[userIndex].role = role
+    await org.save()
+    return org
+  }
+
+  async deleteOperator(data: { userId: string, orgId: string }) {
+    const { userId, orgId } = data
+    const org = await this.orgModel.findById(orgId)
+    if(!org) throw new BadRequestException(`Organisation don't exists`)
+    const userIndex = org.operators.findIndex(item => item.userId === userId)
+    org.operators.splice(userIndex, 1)
+    await org.save()
+    return org
+  }
 
   async updateOrg(data: UpdateOrgDTO) {
     try {

@@ -34,6 +34,22 @@ export interface Ioperators {
   role: StaffRoleEnum;
 }
 
+export class createOperator {
+  userId: string;
+  role: StaffRoleEnum;
+  orgId: string;
+}
+
+export interface IcreateOperator {
+  userId: string;
+  role: StaffRoleEnum;
+  orgId: string;
+}
+
+export interface Ioperators {
+  userId: string;
+  role: StaffRoleEnum;
+}
 
 export class CreateOrgDTO {
   image: string;
