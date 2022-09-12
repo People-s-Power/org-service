@@ -30,7 +30,7 @@ export type OrgDocument = Org &
 export class Org {
   @Prop({ default: 'Upload org Image' })
   image: string;
-  @Prop()
+  @Prop({ required: true })
   author: string;
   @Prop({ require: true, unique: true })
   name: string;

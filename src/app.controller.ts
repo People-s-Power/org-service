@@ -89,7 +89,7 @@ export class AppController {
     const originalMsg = ctx.getMessage()
     channel.ack(originalMsg)
     const orgs = this.appService.userOrgs(author)
-    this.logger.log(orgs)
+    // this.logger.log(orgs)
     return orgs
   }
 

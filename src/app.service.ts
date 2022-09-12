@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
@@ -8,9 +8,12 @@ import { Org, OrgDocument } from './schema/org.schema';
 
 @Injectable()
 export class AppService {
+  logger: Logger;
   constructor(
     @InjectModel(Org.name) private readonly orgModel: Model<OrgDocument>
-  ) {}
+  ) {
+    this.logger = new Logger()
+  }
 
 
   getHello(): string {
@@ -109,6 +112,7 @@ export class AppService {
   async userOrgs(author: string): Promise<OrgDocument[]> {
     try {
       const org = await this.orgModel.find({ author: author })
+      this.logger.log(org)
       return org
     } catch (error) {
       throw error
