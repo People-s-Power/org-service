@@ -24,6 +24,7 @@ export class AppService {
   async createOrg(data: ICreateOrgDTO) {
     try {
       const org = await this.orgModel.create(data)
+      await org.save()
       return 'success'
     } catch (error) {
       throw error
@@ -112,6 +113,7 @@ export class AppService {
   async userOrgs(author: string): Promise<OrgDocument[]> {
     try {
       const org = await this.orgModel.find({ author: author })
+      console.log(org)
       this.logger.log(org)
       return org
     } catch (error) {
