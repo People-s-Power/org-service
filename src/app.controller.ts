@@ -17,13 +17,13 @@ export class AppController {
   }
 
   // Event patters
-  @EventPattern('create-org')
-  createOrg(@Payload() data: CreateOrgDTO, @Ctx() ctx: RmqContext) {
-    const channel = ctx.getChannelRef()
-    const originalMsg = ctx.getMessage()
-    this.appService.createOrg(data)
-    channel.ack(originalMsg)
-  }
+  // @EventPattern('create-org')
+  // createOrg(@Payload() data: CreateOrgDTO, @Ctx() ctx: RmqContext) {
+  //   const channel = ctx.getChannelRef()
+  //   const originalMsg = ctx.getMessage()
+  //   this.appService.createOrg(data)
+  //   channel.ack(originalMsg)
+  // }
 
   @EventPattern('update-org')
   updateOrg(@Payload() data, @Ctx() ctx: RmqContext) {
@@ -70,8 +70,8 @@ export class AppController {
 
   // Message patters
 
-  @MessagePattern({ cmd: 'createorg' })
-  create(@Payload() data: CreateOrgDTO, @Ctx() ctx: RmqContext){
+  @MessagePattern({ cmd: 'create-org' })
+  create(@Payload() data: CreateOrgDTO, @Ctx() ctx: RmqContext): Promise<OrgDocument> {
     const channel = ctx.getChannelRef()
     const originalMsg = ctx.getMessage()
     channel.ack(originalMsg)

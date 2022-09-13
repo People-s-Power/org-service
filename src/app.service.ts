@@ -4,7 +4,7 @@ import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
 import { errorMonitor } from 'stream';
 import { IcreateOperator, ICreateOrgDTO, IUploadImage, UpdateOrgDTO } from './schema/org.dto';
-import { Org, OrgDocument, OrgSchema } from './schema/org.schema';
+import { Org, OrgDocument } from './schema/org.schema';
 
 @Injectable()
 export class AppService {
@@ -21,10 +21,11 @@ export class AppService {
   }
 
 
-  async createOrg(data: ICreateOrgDTO) {
+  async createOrg(data: ICreateOrgDTO): Promise<OrgDocument> {
     try {
-      const org = await this.orgModel.create(data)
-      await org.save()
+      const org = await this.orgModel.create({
+        ...data
+      })
       return org
     } catch (error) {
       throw error
@@ -113,7 +114,7 @@ export class AppService {
   async userOrgs(author: string): Promise<OrgDocument[]> {
     try {
       const org = await this.orgModel.find({ author: author })
-      console.log(org)
+      console.log(author)
       this.logger.log(org)
       return org
     } catch (error) {
