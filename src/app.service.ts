@@ -4,7 +4,7 @@ import { triggerAsyncId } from 'async_hooks';
 import { Model } from 'mongoose';
 import { errorMonitor } from 'stream';
 import { IcreateOperator, ICreateOrgDTO, IUploadImage, UpdateOrgDTO } from './schema/org.dto';
-import { Org, OrgDocument } from './schema/org.schema';
+import { Org, OrgDocument, OrgSchema } from './schema/org.schema';
 
 @Injectable()
 export class AppService {
@@ -25,7 +25,7 @@ export class AppService {
     try {
       const org = await this.orgModel.create(data)
       await org.save()
-      return 'success'
+      return org
     } catch (error) {
       throw error
     }
